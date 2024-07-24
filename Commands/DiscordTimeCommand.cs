@@ -15,19 +15,26 @@ namespace Commands
     {
         public static Task OnVoiceStateUpdate(DiscordClient sender, VoiceStateUpdateEventArgs args)
         {
-            if(args.Before?.Channel == null && args.After?.Channel != null)
+            try
             {
-                TimeHelperService.SetJoinTime(args.User.Username);
-            }
+                if (args.Before?.Channel == null && args.After?.Channel != null)
+                {
+                    TimeHelperService.SetJoinTime(args.User.Username);
+                }
 
-            if(args.Before?.Channel != null && args.After?.Channel == null)
+                if (args.Before?.Channel != null && args.After?.Channel == null)
+                {
+                    DateTime dateTime = DateTime.Now;
+                    DateTime joinTime = TimeHelperService.GetJoinTime(args.User.Username);
+                    TimeSpan difference = dateTime.Subtract(joinTime);
+                    UserServices.SetUserTime(args.User.Username, difference.Seconds);
+                    TimeHelperService.ClearJoinTime(args.User.Username);
+                }
+            }catch (Exception ex)
             {
-                DateTime dateTime = DateTime.Now;
-                DateTime joinTime = TimeHelperService.GetJoinTime(args.User.Username);
-                TimeSpan difference = dateTime.Subtract(joinTime);
-                UserServices.SetUserTime(args.User.Username, difference.Seconds);
-                TimeHelperService.ClearJoinTime(args.User.Username);
+
             }
+            
             return Task.CompletedTask;
         }
 

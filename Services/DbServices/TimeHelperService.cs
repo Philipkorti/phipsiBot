@@ -20,17 +20,21 @@ namespace Services.DbServices
             
             using (var db = new BotContext())
             {
-                TimeHelper  time = db.TimeHelper.Single(d=> d.User == user);
-                if(time == null)
+                try
                 {
                     db.Add(new TimeHelper()
                     {
                         User = db.Users.Single(d => d.Username == username),
                         Jointime = DateTime.Now,
                     });
+
+                    db.SaveChanges();
+                }catch (Exception ex)
+                {
+
                 }
-               
-                db.SaveChanges();
+                
+
             }
         }
         public static void ClearJoinTime(string username)
@@ -38,12 +42,19 @@ namespace Services.DbServices
             User user = UserServices.GetUerByUsername(username);
             using(var db = new BotContext())
             {
-                TimeHelper timeHelper = db.TimeHelper.Single(d => d.User == user);
-                if(timeHelper != null)
+                try
                 {
-                    db.Remove(timeHelper);
-                    db.SaveChanges();
+                    TimeHelper timeHelper = db.TimeHelper.Single(d => d.User == user);
+                    if (timeHelper != null)
+                    {
+                        db.Remove(timeHelper);
+                        db.SaveChanges();
+                    }
+                }catch (Exception ex)
+                {
+
                 }
+                
                
             }
         }
