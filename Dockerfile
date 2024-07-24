@@ -12,6 +12,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/runtime:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
-ENTRYPOINT ["dotnet", "PhipsiBot.dll"]
+ENTRYPOINT ["dotnet", "phipsiBot.dll"]
 
 # docker build -t phipsi-bot:1.1.0 .
