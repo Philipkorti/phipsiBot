@@ -7,17 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="config\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="config\config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\DbConnection\DbConnection.csproj" />
   </ItemGroup>
 
 </Project>

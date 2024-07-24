@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "phipsiBot", "phipsiBot\phipsiBot.csproj", "{BDFACDE3-7F3D-4189-91E8-A9439524D89A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "phipsiBot", "phipsiBot\phipsiBot.csproj", "{BDFACDE3-7F3D-4189-91E8-A9439524D89A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConnection", "DbConnection\DbConnection.csproj", "{31095BC6-C403-4FFA-A51E-B13237B3EA57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConnection", "DbConnection\DbConnection.csproj", "{31095BC6-C403-4FFA-A51E-B13237B3EA57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config", "Config\Config.csproj", "{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{544E92D2-3600-4932-A9F1-7539FE670A15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{31095BC6-C403-4FFA-A51E-B13237B3EA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31095BC6-C403-4FFA-A51E-B13237B3EA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31095BC6-C403-4FFA-A51E-B13237B3EA57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544E92D2-3600-4932-A9F1-7539FE670A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544E92D2-3600-4932-A9F1-7539FE670A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544E92D2-3600-4932-A9F1-7539FE670A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544E92D2-3600-4932-A9F1-7539FE670A15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
