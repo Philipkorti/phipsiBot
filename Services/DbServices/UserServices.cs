@@ -28,7 +28,7 @@ namespace Services.DbServices
             User user;
             using (var db = new BotContext())
             {
-                user = db.Users.Single(user => user.Username == username);
+                user = db.Users.SingleOrDefault(user => user.Username == username);
             }
             return user;
         }
