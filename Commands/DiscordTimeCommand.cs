@@ -26,7 +26,7 @@ namespace Commands
                 {
                     DateTime dateTime = DateTime.Now;
                     DateTime joinTime = TimeHelperService.GetJoinTime(args.User.Username);
-                    TimeSpan difference = dateTime.Subtract(joinTime);
+                    TimeSpan difference = dateTime - joinTime;
                     UserServices.SetUserTime(args.User.Username, difference.Seconds);
                     TimeHelperService.ClearJoinTime(args.User.Username);
                 }
@@ -42,6 +42,15 @@ namespace Commands
         public async Task GetTime(CommandContext ctx)
         {
             Int64 time;
+            if (ctx.Member?.VoiceState?.Channel != null)
+            {
+                DateTime dateTime = DateTime.Now;
+                DateTime joinTime = TimeHelperService.GetJoinTime(ctx.User.Username);
+                TimeSpan difference = dateTime - joinTime;
+                UserServices.SetUserTime(ctx.User.Username, difference.Seconds);
+                TimeHelperService.ClearJoinTime(ctx.User.Username);
+                TimeHelperService.SetJoinTime(ctx.User.Username);
+            }
             time = UserServices.GetUserTimeByUsername(ctx.User.Username);
             long hour = time / 3600;
             long reminingSeconds = time % 3600;
