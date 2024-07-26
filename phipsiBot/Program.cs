@@ -42,6 +42,7 @@ public class Program
         commands.RegisterCommands<TestCommand>();
         commands.RegisterCommands<AddUser>();
         commands.RegisterCommands<DiscordTimeCommand>();
+        commands.RegisterCommands<MemesCommand>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }
@@ -49,11 +50,5 @@ public class Program
     private static Task client_Ready(DiscordClient sender, ReadyEventArgs args)
     {
         return Task.CompletedTask;
-    }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        ConfigReader configReader = new ConfigReader();
-        services.AddDbContext<BotContext>(options => options.UseMySQL(configReader.dbConnection));
     }
 }
