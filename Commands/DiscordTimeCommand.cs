@@ -47,7 +47,7 @@ namespace Commands
                 DateTime dateTime = DateTime.Now;
                 DateTime joinTime = TimeHelperService.GetJoinTime(ctx.User.Username);
                 TimeSpan difference = dateTime - joinTime;
-                UserServices.SetUserTime(ctx.User.Username, difference.Seconds);
+                UserServices.SetUserTime(ctx.User.Username, Convert.ToInt64(difference.TotalSeconds));
                 TimeHelperService.ClearJoinTime(ctx.User.Username);
                 TimeHelperService.SetJoinTime(ctx.User.Username);
             }
