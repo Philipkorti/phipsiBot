@@ -16,6 +16,8 @@ namespace DbConnection.Context
         public DbSet<TimeHelper> TimeHelper { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<ErrorTask> Errors { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder().AddJsonFile("config/config.json");

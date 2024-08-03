@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DbConnection.Context;
 using Microsoft.EntityFrameworkCore;
+using Services.Data;
+using Services.Events;
+using DSharpPlus.Entities;
+
 public class Program
 {
     private static DiscordClient client { get; set; }
@@ -18,7 +22,8 @@ public class Program
     {
         var configReader = new ConfigReader();
         await configReader.ReadConfig();
-        
+
+        ErrorTaskData.ObjectCreated += ErrorTaskData_ObjectCreated;
 
         var discordConfig = new DiscordConfiguration()
         {
@@ -45,6 +50,24 @@ public class Program
         commands.RegisterCommands<MemesCommand>();
         await client.ConnectAsync();
         await Task.Delay(-1);
+    }
+
+    private static void ErrorTaskData_ObjectCreated(object sender, ErrorTaskArgs e)
+    {
+        foreach(var guild in client.Guilds)
+        {
+            DiscordMember client =  guild.Value.GetMemberAsync(327492578616410123).Result;
+            if ((client != null))
+            {
+                DiscordDmChannel dm = client.CreateDmChannelAsync().Result;
+                var message = new DiscordEmbedBuilder();
+                message.Title = e.Title;
+                message.Description = e.Description;
+                message.Timestamp = e.CreatedDate;
+                message.WithAuthor(e.Username);
+                dm.SendMessageAsync(message);
+            }
+        }
     }
 
     private static Task client_Ready(DiscordClient sender, ReadyEventArgs args)
