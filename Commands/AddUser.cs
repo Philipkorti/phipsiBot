@@ -15,8 +15,16 @@ namespace Commands
         [Command("addUser")]
         public async Task AddUsername(CommandContext context)
         {
-            UserServices.AddUser(context.User.Username);
-            await context.Channel.SendMessageAsync($"Der Benutzer {context.User.Username} wurde in der DatenBank erstellt!");
+            try
+            {
+                throw new NotImplementedException();
+                UserServices.AddUser(context.User.Username);
+                await context.Channel.SendMessageAsync($"Der Benutzer {context.User.Username} wurde in der DatenBank erstellt!");
+            }catch (Exception ex)
+            {
+                ErrorTaskService.AddErrorTask(ex.Message, ex.StackTrace, context.User.Username);
+            }
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,16 @@ namespace Commands
                     int randomIndex = random.Next(meme.Count);
                     JObject randomMeme = (JObject)meme[randomIndex];
 
-                    await ctx.Channel.SendMessageAsync(randomMeme["url"].ToString());
-                }catch(Exception ex)
+                    var embed = new DiscordEmbedBuilder()
+                        .WithTitle(randomMeme["name"].ToString())
+                        .WithImageUrl(randomMeme["url"].ToString())
+                        .WithColor(DiscordColor.Blue)
+                        .Build();
+
+                    await ctx.Channel.SendMessageAsync(embed);
+
+                }
+                catch(Exception ex)
                 {
 
                 }
