@@ -19,7 +19,7 @@ namespace Services.DbServices
             {
                 UserServices.AddUser(username);
             }
-            
+
             using (var db = new BotContext())
             {
                 try
@@ -67,7 +67,7 @@ namespace Services.DbServices
                 User user = UserServices.GetUerByUsername(username);
                 using (var db = new BotContext())
                 {
-                    joinTime = db.TimeHelper.Single(d => d.User == user).Jointime;
+                    joinTime = db.TimeHelper.SingleOrDefault(d => d.User == user).Jointime;
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Events;
 using DSharpPlus.Entities;
+using Services.DbServices;
 
 public class Program
 {
@@ -66,6 +67,7 @@ public class Program
                 message.Timestamp = e.CreatedDate;
                 message.WithAuthor(e.Username);
                 dm.SendMessageAsync(message);
+                ErrorTaskService.AddErrorTask(e.Title, e.Description, e.CreatedDate, e.Status, e.Username);
             }
         }
     }
