@@ -37,6 +37,7 @@ public class Program
         client = new DiscordClient(discordConfig);
         client.Ready += client_Ready;
         client.VoiceStateUpdated += DiscordTimeCommand.OnVoiceStateUpdate;
+        client.MessageCreated += MessageFilterCommand.OnMessageCreated;
         
         var commandsConfig = new CommandsNextConfiguration()
         {
@@ -51,6 +52,7 @@ public class Program
         commands.RegisterCommands<DiscordTimeCommand>();
         commands.RegisterCommands<MemesCommand>();
         commands.RegisterCommands<GroupsCommands>();
+        commands.RegisterCommands<MessageFilterCommand>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }
