@@ -49,6 +49,7 @@ public class Program
         commands.RegisterCommands<AddUser>();
         commands.RegisterCommands<DiscordTimeCommand>();
         commands.RegisterCommands<MemesCommand>();
+        commands.RegisterCommands<GroupsCommands>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }

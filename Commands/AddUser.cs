@@ -9,16 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZstdSharp.Unsafe;
+using Services.Services;
+using Enums.Enums;
+using Commands.Authorized;
 
 namespace Commands
 {
     public class AddUser : BaseCommandModule
     {
         [Command("addUser")]
+        [GroupsService(Groups.Manager)]
         public async Task AddUsername(CommandContext context)
         {
             try
             {
+                if(!Authentication.IsUserAuthorized(this, nameof(AddUser), context.User.Username))
+                {
+                    await context.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    return;
+                }
                 UserServices.AddUser(context.User.Username);
                 await context.Channel.SendMessageAsync($"Der Benutzer {context.User.Username} wurde in der DatenBank erstellt!");
             }catch (Exception ex)
