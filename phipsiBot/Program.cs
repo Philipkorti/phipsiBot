@@ -37,6 +37,7 @@ public class Program
         client = new DiscordClient(discordConfig);
         client.Ready += client_Ready;
         client.VoiceStateUpdated += DiscordTimeCommand.OnVoiceStateUpdate;
+        
         var commandsConfig = new CommandsNextConfiguration()
         {
             StringPrefixes = new string[] { configReader.Pefix },

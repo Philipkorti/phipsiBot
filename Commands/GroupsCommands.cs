@@ -49,7 +49,7 @@ namespace Commands
                         return;
                     }
             }
-            await ctx.Channel.SendMessageAsync($"Die Gruppe wurde von {username} wurde auf {groups.ToString()}");
+            await ctx.Channel.SendMessageAsync($"Die Gruppe wurde von {username} wurde auf {groups.ToString()} gesetzt!");
             UserServices.SetGroupByUsername(username, groups);
         }
     }
