@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbConnection\DbConnection.csproj" />
+    <ProjectReference Include="..\Enums\Enums.csproj" />
   </ItemGroup>
 
 </Project>

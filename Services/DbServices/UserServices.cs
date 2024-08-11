@@ -1,5 +1,6 @@
 ﻿using DbConnection.Context;
 using DbConnection.Entity;
+using Enums.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,17 @@ namespace Services.DbServices
             }
 
             return userTime;
+        }
+
+        public static void SetGroupByUsername(string username, Groups groups)
+        {
+            using (var db = new BotContext())
+            {
+                User user = db.Users.Single(user => user.Username == username);
+                user.Groups = groups;
+                db.Users.Update(user);
+                db.SaveChanges();
+            }
         }
     }
 }

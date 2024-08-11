@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConnection", "DbConnectio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Config", "Config\Config.csproj", "{6DEFC96F-F6FD-47B3-AD66-E79820E837F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Commands", "Commands\Commands.csproj", "{E5DC8CB5-641C-4A33-933D-BE0FB4A09909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{544E92D2-3600-4932-A9F1-7539FE670A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{544E92D2-3600-4932-A9F1-7539FE670A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "Enums\Enums.csproj", "{079A4830-906A-45D9-90E4-8DE531983425}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{544E92D2-3600-4932-A9F1-7539FE670A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{544E92D2-3600-4932-A9F1-7539FE670A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{544E92D2-3600-4932-A9F1-7539FE670A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079A4830-906A-45D9-90E4-8DE531983425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079A4830-906A-45D9-90E4-8DE531983425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079A4830-906A-45D9-90E4-8DE531983425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079A4830-906A-45D9-90E4-8DE531983425}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
