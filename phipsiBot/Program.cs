@@ -53,6 +53,7 @@ public class Program
         commands.RegisterCommands<MemesCommand>();
         commands.RegisterCommands<GroupsCommands>();
         commands.RegisterCommands<MessageFilterCommand>();
+        commands.RegisterCommands<HelpCommand>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }
