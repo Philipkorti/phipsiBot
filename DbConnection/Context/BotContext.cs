@@ -15,8 +15,8 @@ namespace DbConnection.Context
     {
         public DbSet<TimeHelper> TimeHelper { get; set; }
         public DbSet<User> Users { get; set; }
-
         public DbSet<ErrorTask> Errors { get; set; }
+        public DbSet<FilterWords> FilterWords { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
