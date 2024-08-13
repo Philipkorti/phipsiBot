@@ -28,7 +28,7 @@ namespace Commands
             }
 
             List<FilterWords> words = MessageFilterService.GetWordsList();
-            string[] messageWords = args.Message.Content.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+            string[] messageWords = args.Message.Content.Split(new char[] { ' ', '.', ',', '#','+', '-', ';' }, StringSplitOptions.RemoveEmptyEntries);
             if(messageWords.Any(msgWord => words.Any(word => words.Any(w => w.Words.ToLower() == msgWord.ToLower()))))
             {
                 await args.Message.DeleteAsync();
