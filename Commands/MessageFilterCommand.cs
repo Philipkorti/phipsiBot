@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Enums.Enums;
+using DbConnection.Entity;
+using MySqlX.XDevAPI.Common;
 
 namespace Commands
 {
@@ -24,9 +26,10 @@ namespace Commands
             {
                 return;
             }
-            FilterData filterData = WriteToJson.ReadJson("filter.json");
 
-            if (filterData.FilterWords.Any(text => text.Contains(args.Message.Content)))
+            List<FilterWords> words = MessageFilterService.GetWordsList();
+            string[] messageWords = args.Message.Content.Split(new char[] { ' ', '.', ',', '#','+', '-', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if(messageWords.Any(msgWord => words.Any(word => words.Any(w => w.Words.ToLower() == msgWord.ToLower()))))
             {
                 await args.Message.DeleteAsync();
             }
@@ -42,41 +45,27 @@ namespace Commands
                     await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
                     return;
                 }
+
+                List<FilterWords> filterwords = MessageFilterService.GetWordsList();
                 FilterData data = WriteToJson.ReadJson("filter.json");
                 string[] filters = filter.Split(',', ':', ';');
-                data.FilterWords.AddRange(filters);
-                WriteToJson.WriteJson(data, "filter.json");
-                await ctx.Channel.SendMessageAsync($"Die Liste von den Filter Wörter wurde um folgende erweitert: {filter}");
+                List<string> duplicates = new List<string>();
+                List<string> addedwords = new List<string>();
+                foreach (string filterWord in filters)
+                {
+                    if(filterwords.Find(word => word.Words == filterWord) != null)
+                    {
+                        duplicates.Add(filterWord);
+                        break;
+                    }
+                    MessageFilterService.AddWords(filterWord);
+                    addedwords.Add(filterWord);
+                }
+                await ctx.Channel.SendMessageAsync($"Die Liste von den Filter Wörter wurde um folgende erweitert: {string.Join(',',addedwords)}");
             }
             catch (Exception ex)
             {
                 ErrorTaskData data = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
-            }
-        }
-        [Command("createFilter")]
-        [GroupsService(Groups.Manager)]
-        public async Task CreateFilter(CommandContext ctx, string title, string filter)
-        {
-            try
-            {
-                if(!Authorized.Authentication.IsUserAuthorized(this,nameof(CreateFilter), ctx.User.Username))
-                {
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
-                    return;
-                }
-                string[] filters = filter.Split(',', ':', ';');
-                FilterData data = new FilterData();
-                data.Title = title;
-                data.FilterWords = new List<string>();
-
-                data.FilterWords.AddRange(filters);
-                WriteToJson.WriteJson(data, "filter.json");
-                await ctx.Channel.SendMessageAsync($"Der Filter wurde erfolgreich erstellt mit den folgenden Wörter: {filter}");
-
-            }
-            catch (Exception ex)
-            {
-                ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
 
@@ -91,9 +80,8 @@ namespace Commands
                     await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
                     return;
                 }
-                FilterData data = WriteToJson.ReadJson("filter.json");
-                string filter = string.Join(",", data.FilterWords);
-                await ctx.Channel.SendMessageAsync($"Aktuelle Filter Liste: {filter}");
+                List<FilterWords> words = MessageFilterService.GetWordsList();
+                await ctx.Channel.SendMessageAsync($"Aktuelle Filter Liste: {string.Join(',', words)}");
             }catch (Exception ex)
             {
                 ErrorTaskData data = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
