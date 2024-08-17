@@ -8,10 +8,10 @@ RUN dotnet restore
 # Build and publish a release
 RUN dotnet publish -c Release -o out
 
-RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    libraspberrypi-bin \
-    python3 \
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository "deb http://archive.raspberrypi.org/debian/ buster main" \
+    && apt-get update \
+    && apt-get install -y libraspberrypi-bin python3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Build runtime image
