@@ -56,6 +56,7 @@ public class Program
         commands.RegisterCommands<MessageFilterCommand>();
         commands.RegisterCommands<HelpCommand>();
         commands.RegisterCommands<KitchenGameCommand>();
+        commands.RegisterCommands<RespberryPiCommands>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }
