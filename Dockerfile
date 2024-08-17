@@ -9,6 +9,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
     libraspberrypi-bin \
     python3 \
     && rm -rf /var/lib/apt/lists/*
