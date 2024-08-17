@@ -32,6 +32,10 @@ namespace Commands
                     overwrites: new List<DiscordOverwriteBuilder>
                     {
                     new DiscordOverwriteBuilder(ctx.Guild.EveryoneRole).Deny(Permissions.AccessChannels),
+                    new DiscordOverwriteBuilder(ctx.Guild.CurrentMember)
+                    .Allow(Permissions.AccessChannels)
+                    .Allow(Permissions.SendMessages)
+                    .Allow(Permissions.ReadMessageHistory),
                     new DiscordOverwriteBuilder(ctx.Member)
                     .Allow(Permissions.AccessChannels)
                     .Allow(Permissions.SendMessages)
@@ -79,6 +83,10 @@ namespace Commands
                     return;
                 }
                 gameData.Game = new Game(ctx);
+
+                DiscordChannel channel = ctx.Guild.GetChannel(games[ctx.User.Username].ChannelId);
+                await channel.DeleteAsync();
+                games.Remove(ctx.User.Username);
             }
             catch (Exception ex)
             {
