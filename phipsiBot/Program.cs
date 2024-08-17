@@ -13,6 +13,7 @@ using Services.Data;
 using Services.Events;
 using DSharpPlus.Entities;
 using Services.DbServices;
+using DSharpPlus.Interactivity.Extensions;
 
 public class Program
 {
@@ -38,7 +39,7 @@ public class Program
         client.Ready += client_Ready;
         client.VoiceStateUpdated += DiscordTimeCommand.OnVoiceStateUpdate;
         client.MessageCreated += MessageFilterCommand.OnMessageCreated;
-        
+        client.UseInteractivity();
         var commandsConfig = new CommandsNextConfiguration()
         {
             StringPrefixes = new string[] { configReader.Pefix },
@@ -54,6 +55,7 @@ public class Program
         commands.RegisterCommands<GroupsCommands>();
         commands.RegisterCommands<MessageFilterCommand>();
         commands.RegisterCommands<HelpCommand>();
+        commands.RegisterCommands<KitchenGameCommand>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }

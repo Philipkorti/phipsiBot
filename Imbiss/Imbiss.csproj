@@ -7,15 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Classes\g4a1vo2d.252~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DSharpPlus" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Config\Config.csproj" />
-    <ProjectReference Include="..\Enums\Enums.csproj" />
-    <ProjectReference Include="..\Imbiss\Imbiss.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
