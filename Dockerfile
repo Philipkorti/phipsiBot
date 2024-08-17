@@ -8,11 +8,6 @@ RUN dotnet restore
 # Build and publish a release
 RUN dotnet publish -c Release -o out
 
-RUN apt-get update && apt-get install -y software-properties-common 
-RUN add-apt-repository "deb http://archive.raspberrypi.org/debian/ buster main" 
-RUN apt-get update 
-RUN rm -rf /var/lib/apt/lists/*
-
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/runtime:8.0
 WORKDIR /App
