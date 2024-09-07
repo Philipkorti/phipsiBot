@@ -57,6 +57,7 @@ public class Program
         commands.RegisterCommands<HelpCommand>();
         commands.RegisterCommands<KitchenGameCommand>();
         commands.RegisterCommands<RespberryPiCommands>();
+        commands.RegisterCommands<SteamNewsCommands>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }
