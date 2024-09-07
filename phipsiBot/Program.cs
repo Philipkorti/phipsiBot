@@ -54,6 +54,7 @@ public class Program
         commands.RegisterCommands<GroupsCommands>();
         commands.RegisterCommands<MessageFilterCommand>();
         commands.RegisterCommands<HelpCommand>();
+        commands.RegisterCommands<SteamNewsCommands>();
         await client.ConnectAsync();
         await Task.Delay(-1);
     }

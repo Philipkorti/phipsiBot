@@ -11,5 +11,6 @@ namespace Config
         public string Token { get; set; }
         public string Prefix { get; set; }
         public string dbConnection { get; set; }
+        public string SteamAPI {  get; set; }
     }
 }

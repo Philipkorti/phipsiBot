@@ -12,6 +12,7 @@ namespace Config
         public string Token {  get; set; }
         public string Pefix { get; set; }
         public string dbConnection { get; set; }
+        public string SteamAPI { get; set; }
 
         public async Task ReadConfig()
         {
@@ -23,6 +24,7 @@ namespace Config
                 this.Token = data.Token;
                 this.Pefix = data.Prefix;
                 this.dbConnection = data.dbConnection;
+                this.SteamAPI = data.SteamAPI;
             }
         }
     }
