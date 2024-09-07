@@ -11,6 +11,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DbConnection.Entity;
+using Services.Services;
+using Enums.Enums;
+using Commands.Authorized;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace Commands
 {
@@ -65,7 +69,8 @@ namespace Commands
                 long hour = time / 3600;
                 long reminingSeconds = time % 3600;
                 long minutes = reminingSeconds / 60;
-                await ctx.Channel.SendMessageAsync($"Die Discord Zeit von {name} beträgt {hour} Stunden und {minutes} Minuten.");
+                reminingSeconds = reminingSeconds % 60;
+                await ctx.Channel.SendMessageAsync($"Die Discord Zeit von {name} beträgt {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden.");
             }
             catch (Exception ex)
             {
@@ -86,12 +91,28 @@ namespace Commands
                     long hour = users[i].TimeInSecond / 3600;
                     long reminingSeconds = users[i].TimeInSecond % 3600;
                     long minutes = reminingSeconds / 60;
-                    await ctx.Channel.SendMessageAsync($"{i+1}: {users[i].Username} mit {hour} Stunden und {minutes} Minuten");
+                    reminingSeconds = reminingSeconds % 60;
+                    await ctx.Channel.SendMessageAsync($"{i+1}: {users[i].Username} mit {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden");
                 }
 
             }catch (Exception ex)
             {
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
+            }
+        }
+
+        [GroupsService(Groups.Admin)]
+        [Command("addTime")]
+        public async Task AddTime(CommandContext ctx, string username,long hour, long minutes, long seconds)
+        {
+            try
+            {
+                long setSeconds = hour*3600 + minutes*60 + seconds;
+                UserServices.SetUserTime(username, setSeconds);
+                await ctx.Channel.SendMessageAsync($"Es wurden an den Benutzer {username} {hour} Stunden {minutes} Minuten {seconds} Sekunden das entspricht {setSeconds} Sekunden hinzugefügt.");
+            }catch(Exception ex)
+            {
+                ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
     }

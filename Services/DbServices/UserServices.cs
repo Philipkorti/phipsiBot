@@ -4,6 +4,7 @@ using Enums.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,6 +64,16 @@ namespace Services.DbServices
                 db.Users.Update(user);
                 db.SaveChanges();
             }
+        }
+
+        public static User GetUserById(int id)
+        {
+            User user;
+            using (var db = new BotContext())
+            {
+                user = db.Users.SingleOrDefault(user =>user.Id == id);
+            }
+            return user;
         }
     }
 }
