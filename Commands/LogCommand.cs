@@ -54,6 +54,7 @@ namespace Commands
                     builder.AddFile(fileName, fs);
                     await ctx.Channel.SendMessageAsync(builder);
                 }
+                File.Delete(fileName);
             }
             catch(Exception ex)
             {
