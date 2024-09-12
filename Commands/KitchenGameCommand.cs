@@ -16,17 +16,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Config;
 using System.Web;
+using NLog;
 
 namespace Commands
 {
     public class KitchenGameCommand : BaseCommandModule
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         Dictionary<string, KitchenGameData> games = new Dictionary<string, KitchenGameData>();
         [Command("kitchenCreate")]
         public async Task CreateGame(CommandContext ctx)
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchenCreate benutzt!");
                 DiscordClient discordClient;
                 DiscordChannel channel = await ctx.Guild.CreateChannelAsync($"KitchenGame - {ctx.User.Username}", ChannelType.Text,
                     overwrites: new List<DiscordOverwriteBuilder>
@@ -46,6 +50,7 @@ namespace Commands
             }
             catch(Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
@@ -55,6 +60,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchenGameStop benutzt!");
                 KitchenGameData gameData = games[ctx.User.Username];
                 if (gameData == null || ctx.Channel.Id != gameData.ChannelId)
                 {
@@ -67,6 +73,7 @@ namespace Commands
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
@@ -76,6 +83,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchGameStart benutzt!");
                 KitchenGameData gameData = games[ctx.User.Username];
                 if (gameData == null || ctx.Channel.Id != gameData.ChannelId)
                 {
@@ -90,6 +98,7 @@ namespace Commands
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
             
@@ -100,6 +109,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitschenGameStats benutzt!");
                 string user;
                 if (string.IsNullOrEmpty(username))
                 {
@@ -119,6 +129,7 @@ namespace Commands
                 await ctx.Channel.SendMessageAsync(embedBuilder);
             }catch(Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
             }
         }
@@ -128,6 +139,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchenHelp benutzt!");
                 var configReader = new ConfigReader();
                 await configReader.ReadConfig();
                 string prefix = configReader.Pefix;
@@ -144,6 +156,7 @@ namespace Commands
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
@@ -153,6 +166,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchenTop benutzt!");
                 List<KitchenGame> kitchenGames = KitchenGameService.GetTopKitchenGameUser();
                 User user;
                 for (int i = 0; i < kitchenGames.Count; i++)
@@ -162,6 +176,7 @@ namespace Commands
                 }
             }catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace,DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
@@ -171,6 +186,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl kitchenBeschreibung benutzt!");
                 DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
                 discordEmbedBuilder.Title = "Beschreibung";
                 discordEmbedBuilder.Description = "In diesem rundenbasierten Spiel stehen dir in jeder Runde sechs verschiedene Aktionen zur Auswahl:\n" +
@@ -183,6 +199,7 @@ namespace Commands
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace, DateTime.Now,ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }

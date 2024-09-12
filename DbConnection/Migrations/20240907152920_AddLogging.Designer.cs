@@ -3,6 +3,7 @@ using System;
 using DbConnection.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConnection.Migrations
 {
     [DbContext(typeof(BotContext))]
-    partial class BotContextModelSnapshot : ModelSnapshot
+    [Migration("20240907152920_AddLogging")]
+    partial class AddLogging
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,16 +90,16 @@ namespace DbConnection.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Exception")
+                    b.Property<string>("Lgger")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("LogLevel")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Logger")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("date")

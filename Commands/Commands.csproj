@@ -10,6 +10,7 @@
     <PackageReference Include="DSharpPlus" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.9" />
+    <PackageReference Include="NLog" Version="5.3.3" />
   </ItemGroup>
 
   <ItemGroup>

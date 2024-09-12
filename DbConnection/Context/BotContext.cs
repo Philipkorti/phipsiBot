@@ -18,6 +18,7 @@ namespace DbConnection.Context
         public DbSet<ErrorTask> Errors { get; set; }
         public DbSet<FilterWords> FilterWords { get; set; }
         public DbSet<KitchenGame> KitchenGames { get; set; }
+        public DbSet<Logging> Loggings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
