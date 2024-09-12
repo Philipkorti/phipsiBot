@@ -8,7 +8,6 @@ using Imbiss.Services;
 using Org.BouncyCastle.Bcpg.Sig;
 using Services.Data;
 using Services.DbServices;
-using Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +16,7 @@ using System.Threading.Tasks;
 using Config;
 using System.Web;
 using NLog;
+using Enums.Enums;
 
 namespace Commands
 {

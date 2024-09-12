@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Enums.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace DbConnection.Entity
 
         public string? Title { get; set; }
 
-        public string? Status { get; set; }
+        public ServiceStatus Status { get; set; }
 
         public string? ChannelId { get; set; } 
     }

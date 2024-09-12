@@ -5,7 +5,6 @@ using DSharpPlus.Entities;
 using Enums.Enums;
 using Services.Data;
 using Services.DbServices;
-using Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -19,6 +19,7 @@ namespace DbConnection.Context
         public DbSet<FilterWords> FilterWords { get; set; }
         public DbSet<KitchenGame> KitchenGames { get; set; }
         public DbSet<Logging> Loggings { get; set; }
+        public DbSet<Services> Services { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

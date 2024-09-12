@@ -2,10 +2,10 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using Enums.Enums;
 using Newtonsoft.Json.Linq;
 using NLog;
 using Services.Data;
-using Services.Enums;
 using Services.Services;
 using System;
 using System.Collections.Generic;

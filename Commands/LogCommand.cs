@@ -13,7 +13,6 @@ using DbConnection.Entity;
 using Services.DbServices;
 using DSharpPlus.Entities;
 using Services.Data;
-using Services.Enums;
 
 namespace Commands
 {
