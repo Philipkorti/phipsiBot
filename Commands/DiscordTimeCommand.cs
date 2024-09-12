@@ -16,6 +16,7 @@ using Enums.Enums;
 using Commands.Authorized;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using NLog;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Commands
 {
@@ -137,6 +138,38 @@ namespace Commands
             {
                 logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
+            }
+        }
+
+        [Command("TimeInSeconds")]
+        public async Task GetTimeInSecond(CommandContext ctx, string username = null)
+        {
+            try
+            {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl TimeInSecond benutzt!");
+                username = string.IsNullOrEmpty(username) ? ctx.User.Username : username;
+                if (ctx.Member?.VoiceState?.Channel != null)
+                {
+                    DateTime dateTime = DateTime.Now;
+                    DateTime joinTime = TimeHelperService.GetJoinTime(username);
+                    if (joinTime != null)
+                    {
+                        TimeSpan difference = dateTime - joinTime;
+                        UserServices.SetUserTime(username, Convert.ToInt64(difference.TotalSeconds));
+                        TimeHelperService.ClearJoinTime(username);
+                        TimeHelperService.SetJoinTime(username);
+                    }
+
+                }
+
+                User user = UserServices.GetUerByUsername(username);
+                string msg = $"Die Discord Zeit von {username} beträgt {user.TimeInSecond} Sekunden.";
+                logger.Info(msg);
+                await ctx.Channel.SendMessageAsync(msg);
+            }catch(Exception ex)
+            {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
+                ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
     }
