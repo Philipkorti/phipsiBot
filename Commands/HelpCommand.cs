@@ -12,16 +12,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Config;
+using NLog;
 
 namespace Commands
 {
     public class HelpCommand : BaseCommandModule
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         [Command("help")]
         public async Task Help(CommandContext ctx)
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl help benutzt!");
                 var readconfig = new ConfigReader();
                 await readconfig.ReadConfig();
                 string prefix = readconfig.Pefix;
@@ -53,6 +57,7 @@ namespace Commands
             }
             catch(Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
            

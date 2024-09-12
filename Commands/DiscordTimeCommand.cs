@@ -15,22 +15,27 @@ using Services.Services;
 using Enums.Enums;
 using Commands.Authorized;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using NLog;
 
 namespace Commands
 {
     public class DiscordTimeCommand : BaseCommandModule
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
         public static Task OnVoiceStateUpdate(DiscordClient sender, VoiceStateUpdateEventArgs args)
         {
+            Logger logger = LogManager.GetCurrentClassLogger();
             try
             {
                 if (args.Before?.Channel == null && args.After?.Channel != null)
                 {
+                    logger.Info($"Der User {args.User.Username} ist dem Channel {args.After.Channel} beigetreten!");
                     TimeHelperService.SetJoinTime(args.User.Username);
                 }
 
                 if (args.Before?.Channel != null && args.After?.Channel == null)
                 {
+                    logger.Info($"Der User {args.User.Username} hat den Channel {args.Before.Channel} verlassen!");
                     DateTime dateTime = DateTime.Now;
                     DateTime joinTime = TimeHelperService.GetJoinTime(args.User.Username);
                     TimeSpan difference = dateTime - joinTime;
@@ -39,6 +44,7 @@ namespace Commands
                 }
             }catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {args.User.Username}");
                 ErrorTaskData data = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now, ErrorTaskStatus.NEW.ToString(), sender.CurrentUser.Username);
             }
             
@@ -51,6 +57,7 @@ namespace Commands
             Int64 time;
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl time benutzt!");
                 string name = username == null ? ctx.User.Username : username;
                 if (ctx.Member?.VoiceState?.Channel != null)
                 {
@@ -70,10 +77,13 @@ namespace Commands
                 long reminingSeconds = time % 3600;
                 long minutes = reminingSeconds / 60;
                 reminingSeconds = reminingSeconds % 60;
-                await ctx.Channel.SendMessageAsync($"Die Discord Zeit von {name} beträgt {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden.");
+                string msg = $"Die Discord Zeit von {name} beträgt {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden.";
+                logger.Info(msg);
+                await ctx.Channel.SendMessageAsync(msg);
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
             }
             
@@ -84,6 +94,7 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl timetop benutzt!");
                 List<User> users = TimeHelperService.GetTopUsers();
 
                 for (int i = 0; i < users.Count; i++)
@@ -92,11 +103,14 @@ namespace Commands
                     long reminingSeconds = users[i].TimeInSecond % 3600;
                     long minutes = reminingSeconds / 60;
                     reminingSeconds = reminingSeconds % 60;
-                    await ctx.Channel.SendMessageAsync($"{i+1}: {users[i].Username} mit {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden");
+                    string msg = $"{i + 1}: {users[i].Username} mit {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden";
+                    logger.Info(msg);
+                    await ctx.Channel.SendMessageAsync(msg);
                 }
 
             }catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
             }
         }
@@ -107,11 +121,21 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl addTime benutzt!");
+                if (!Authentication.IsUserAuthorized(this, nameof(AddTime), ctx.User.Username))
+                {
+                    logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
+                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
+                    return;
+                }
                 long setSeconds = hour*3600 + minutes*60 + seconds;
                 UserServices.SetUserTime(username, setSeconds);
-                await ctx.Channel.SendMessageAsync($"Es wurden an den Benutzer {username} {hour} Stunden {minutes} Minuten {seconds} Sekunden das entspricht {setSeconds} Sekunden hinzugefügt.");
+                string msg = $"Es wurden an den Benutzer {username} {hour} Stunden {minutes} Minuten {seconds} Sekunden das entspricht {setSeconds} Sekunden hinzugefügt.";
+                logger.Info(msg);
+                await ctx.Channel.SendMessageAsync(msg);
             }catch(Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }

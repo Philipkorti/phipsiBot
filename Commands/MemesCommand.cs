@@ -7,11 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
+using Services.Data;
+using Services.Enums;
 
 namespace Commands
 {
     public class MemesCommand : BaseCommandModule
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         string api = "https://api.imgflip.com/get_memes";
         [Command("meme")]
         public async Task GetRandomMemeAsync(CommandContext ctx)
@@ -20,6 +25,7 @@ namespace Commands
             {
                 try
                 {
+                    logger.Info($"Der User {ctx.User.Username} hat den Befehl meme benutzt!");
                     HttpResponseMessage response = await client.GetAsync(api);
                     string responseBody = await response.Content.ReadAsStringAsync();
                     JObject json = JObject.Parse(responseBody);
@@ -40,7 +46,8 @@ namespace Commands
                 }
                 catch(Exception ex)
                 {
-                    
+                    logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
+                    ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message,ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
                 }
             }
         }

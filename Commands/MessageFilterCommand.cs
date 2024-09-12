@@ -15,24 +15,39 @@ using System.Threading.Tasks;
 using Enums.Enums;
 using DbConnection.Entity;
 using MySqlX.XDevAPI.Common;
+using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace Commands
 {
     public class MessageFilterCommand : BaseCommandModule
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         public async static Task OnMessageCreated(DiscordClient client, MessageCreateEventArgs args)
         {
-            if(args.Author.IsBot)
+            Logger logger = LogManager.GetCurrentClassLogger();
+            try
             {
-                return;
-            }
+                if (args.Author.IsBot)
+                {
+                    return;
+                }
 
-            List<FilterWords> words = MessageFilterService.GetWordsList();
-            string[] messageWords = args.Message.Content.Split(new char[] { ' ', '.', ',', '#','+', '-', ';' }, StringSplitOptions.RemoveEmptyEntries);
-            if(messageWords.Any(msgWord => words.Any(word => words.Any(w => w.Words.ToLower() == msgWord.ToLower()))))
-            {
-                await args.Message.DeleteAsync();
+                List<FilterWords> words = MessageFilterService.GetWordsList();
+                string[] messageWords = args.Message.Content.Split(new char[] { ' ', '.', ',', '#', '+', '-', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (messageWords.Any(msgWord => words.Any(word => words.Any(w => w.Words.ToLower() == msgWord.ToLower()))))
+                {
+                    logger.Info($"Die Nachricht {args.Message} von {args.Author.Username} wurde gelöscht!");
+                    await args.Message.DeleteAsync();
+                }
             }
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {args.Author.Username}");
+                ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace,DateTime.Now,ErrorTaskStatus.NEW.ToString(),args.Author.Username);
+            }
+            
         }
         [Command("addFilter")]
         [GroupsService(Groups.Manager)]
@@ -40,8 +55,10 @@ namespace Commands
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl addFilter benutzt!");
                 if (!Authorized.Authentication.IsUserAuthorized(this,nameof(SetAddFilter),ctx.User.Username))
                 {
+                    logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
                     await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
                     return;
                 }
@@ -61,10 +78,13 @@ namespace Commands
                     MessageFilterService.AddWords(filterWord);
                     addedwords.Add(filterWord);
                 }
-                await ctx.Channel.SendMessageAsync($"Die Liste von den Filter Wörter wurde um folgende erweitert: {string.Join(',',addedwords)}");
+                string msg = $"Die Liste von den Filter Wörter wurde um folgende erweitert: {string.Join(',', addedwords)}";
+                logger.Info(msg);
+                await ctx.Channel.SendMessageAsync(msg);
             }
             catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData data = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }
@@ -75,15 +95,20 @@ namespace Commands
         {
             try
             {
-                if(!Authorized.Authentication.IsUserAuthorized(this,nameof(ViewFilter), ctx.User.Username))
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl viewFilter benutzt!");
+                if (!Authorized.Authentication.IsUserAuthorized(this,nameof(ViewFilter), ctx.User.Username))
                 {
+                    logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
                     await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
                     return;
                 }
                 List<FilterWords> words = MessageFilterService.GetWordsList();
-                await ctx.Channel.SendMessageAsync($"Aktuelle Filter Liste: {string.Join(',', words)}");
+                string msg = $"Aktuelle Filter Liste: {string.Join(',', words)}";
+                logger.Info(msg);
+                await ctx.Channel.SendMessageAsync(msg);
             }catch (Exception ex)
             {
+                logger.Error(ex, $"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData data = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now, ErrorTaskStatus.NEW.ToString(), ctx.User.Username);
             }
         }

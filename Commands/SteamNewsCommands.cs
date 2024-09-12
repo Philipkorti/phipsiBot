@@ -3,6 +3,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using Newtonsoft.Json.Linq;
+using NLog;
 using Services.Data;
 using Services.Enums;
 using Services.Services;
@@ -17,12 +18,14 @@ namespace Commands
 {
     public class SteamNewsCommands : BaseCommandModule
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private readonly string url = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?";
         [Command("OverwatchNews")]
         public async Task GetDeadlookNews(CommandContext ctx)
         {
             try
             {
+                logger.Info($"Der User {ctx.User.Username} hat den Befehl OverwatchNews benutzt!");
                 ConfigReader configReader = new ConfigReader();
                 configReader.ReadConfig();
                 string url = this.url + $"appid=2357570&key={configReader.SteamAPI}&count=1";
@@ -51,6 +54,7 @@ namespace Commands
             }
             catch (Exception ex)
             {
+                logger.Error(ex,$"Es ist ein Fehler aufgetreten bei dem User {ctx.User.Username}");
                 ErrorTaskData errorTaskData = new ErrorTaskData(ex.Message, ex.StackTrace, DateTime.Now,ErrorTaskStatus.NEW.ToString(),ctx.User.Username);
             }
            
