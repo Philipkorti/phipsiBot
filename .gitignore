@@ -18,7 +18,7 @@ obj/
 *.userosscache
 *.sln.docstates
 config.json
-
+nlog.config
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

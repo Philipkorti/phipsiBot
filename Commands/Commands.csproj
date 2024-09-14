@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="h0krq5kd.0hl~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DSharpPlus" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.9" />
