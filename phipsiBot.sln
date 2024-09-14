@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enums", "Enums\Enums.csproj", "{079A4830-906A-45D9-90E4-8DE531983425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imbiss", "Imbiss\Imbiss.csproj", "{4F142FC7-205E-4FE8-8B6C-CDE16AD1AB72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imbiss", "Imbiss\Imbiss.csproj", "{4F142FC7-205E-4FE8-8B6C-CDE16AD1AB72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventService", "EventService\EventService.csproj", "{C5FF5514-4717-4FDF-B962-42E396F36CBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{4F142FC7-205E-4FE8-8B6C-CDE16AD1AB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F142FC7-205E-4FE8-8B6C-CDE16AD1AB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F142FC7-205E-4FE8-8B6C-CDE16AD1AB72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5FF5514-4717-4FDF-B962-42E396F36CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5FF5514-4717-4FDF-B962-42E396F36CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5FF5514-4717-4FDF-B962-42E396F36CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5FF5514-4717-4FDF-B962-42E396F36CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

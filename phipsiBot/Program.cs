@@ -27,6 +27,8 @@ public class Program
     {
         var configReader = new ConfigReader();
         await configReader.ReadConfig();
+        AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
         NLog.GlobalDiagnosticsContext.Set("connectionString", configReader.dbConnection);
         logger = LogManager.GetCurrentClassLogger();
         logger.Info("Discord Bot wird gestartet");
@@ -76,6 +78,8 @@ public class Program
         logger.Info("Die SteamNewsCommands Klasse wurde registriert!");
         commands.RegisterCommands<LogCommand>();
         logger.Info("Die LogCommand Klasse wurde registriert!");
+        commands.RegisterCommands<ServiceCommands>();
+        logger.Info("Die ServiceCommands Klasse wurde registriert!");
         logger.Info("Die Verbindung zu Discord wird aufgebaut!");
         await client.ConnectAsync();
         logger.Info("Der Discord Bot ist nun bereit!");
@@ -104,5 +108,10 @@ public class Program
     private static Task client_Ready(DiscordClient sender, ReadyEventArgs args)
     {
         return Task.CompletedTask;
+    }
+
+    private static void OnProcessExit(object sender, EventArgs e)
+    {
+        ServicesService.SetAllOffline();
     }
 }

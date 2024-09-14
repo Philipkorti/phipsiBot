@@ -13,7 +13,6 @@ using Commands.Authorized;
 using Services.DbServices;
 using NLog;
 using Services.Data;
-using Services.Enums;
 
 namespace Commands
 {

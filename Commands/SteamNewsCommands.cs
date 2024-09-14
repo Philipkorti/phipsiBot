@@ -2,54 +2,36 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using Enums.Enums;
 using Newtonsoft.Json.Linq;
 using NLog;
 using Services.Data;
-using Services.Enums;
 using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Commands
 {
     public class SteamNewsCommands : BaseCommandModule
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly string url = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?";
         [Command("OverwatchNews")]
-        public async Task GetDeadlookNews(CommandContext ctx)
+        public async Task GetOverwatchNews(CommandContext ctx, string appid)
         {
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl OverwatchNews benutzt!");
-                ConfigReader configReader = new ConfigReader();
-                configReader.ReadConfig();
-                string url = this.url + $"appid=2357570&key={configReader.SteamAPI}&count=1";
-
-                using (HttpClient client = new HttpClient())
+                string name = SteamAPIService.GetOverwatchNews(out IEnumerable<string> message, appid);
+                await ctx.Channel.SendMessageAsync("**" + name + "**");
+                foreach (var item in message)
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseData = await response.Content.ReadAsStringAsync();
-                        JObject json = JObject.Parse(responseData);
-                        var appDetails = json["appnews"]["newsitems"][0];
-                        string name = appDetails["title"].ToString();
-                        string description = appDetails["contents"].ToString();
-
-                        await ctx.Channel.SendMessageAsync("**" + name + "**");
-                        string html = SteamAPIService.ConvertHtmlToMarkdown(description);
-                        foreach (var item in SteamAPIService.SplitMessage(html))
-                        {
-                            await ctx.Channel.SendMessageAsync(item);
-                        }
-
-                    }
+                    await ctx.Channel.SendMessageAsync(item);
                 }
             }
             catch (Exception ex)

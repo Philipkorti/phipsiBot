@@ -5,7 +5,6 @@ using DSharpPlus.Entities;
 using Enums.Enums;
 using Services.Data;
 using Services.DbServices;
-using Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,16 +39,26 @@ namespace Commands
                     builder.AddField($"{prefix}timetop", "Gibt die 5 Spieler an mit der meisten Zeit.");
                     builder.AddField($"{prefix}meme", "Gibt ein zufälliges Meme wieder.");
                     builder.AddField($"{prefix}kitchenHelp", "Gibt die Hilfe zurück für kitchenGame.");
+                    builder.AddField($"{prefix}OverwatchNews", "Gibt die Aktuellen Neuigkeiten von Overwatch zurück.");
 
                     if (groups <= Groups.Manager)
                     {
                         builder.AddField($"{prefix}createFilter title filterWörter", "Erstellt eine neue Filterliste. Es können mehrere filter Wörter hinzugefügt werden mit dem Trennzeichen ','.");
                         builder.AddField($"{prefix}addFilter filterWörter", "fügt zu der Filterliste Wörter hinzu. Es können mehrere Wörter angegeben werden mit dem Trennzeichen ','.");
                         builder.AddField($"{prefix}viewFilter", "Zeigt die Aktuelle Filterliste an.");
+                        builder.AddField($"{prefix}services", "Gibt Alle Services zurück.");
+                        builder.AddField($"{prefix}readnews", "Gibt alle Neuigkeiten Zurück die ausgegeben werden.");
+                        builder.AddField($"{prefix}setchannelId serviceName", "Setzt bei dem Service die ChannelId.");
+                        builder.AddField($"{prefix}addgame serviceName gameVerbindung newsType", "Erstellt eine Verbindung zu den Daten die durchsucht werden. GameVerbindung ist eine id, news Type ist 0 für Steam und 1 für YouTube.");
+                        builder.AddField($"{prefix}removeReadNews readNewsName", "Entfernt wieder die Verbindung zu den Daten vom Spiel.");
 
                         if (groups <= Groups.Admin)
                         {
                             builder.AddField($"{prefix}setGroup Username Group", "Setzt die Gruppe von einem Spieler. Die Folgende Gruppen gibt es: User, Manager, Admin.");
+                            builder.AddField($"{prefix}create interval intervalTyp", "Erstellt ein Service. Interval ist die Zeit nach wie viel er es Wiederholen soll. IntervalType is welche Einheit der Intervall hat 0 für Sekunde 1 für Minute und 2 für Stunden.");
+                            builder.AddField($"{prefix}start serviceName", "Startet das Service!");
+                            builder.AddField($"{prefix}stop serviceName", "Stopped das Service!");
+                            builder.AddField($"{prefix}removeService serviceName", "Löscht das Service!");
                         }
                     }
                 }

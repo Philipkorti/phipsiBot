@@ -3,6 +3,7 @@ using System;
 using DbConnection.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConnection.Migrations
 {
     [DbContext(typeof(BotContext))]
-    partial class BotContextModelSnapshot : ModelSnapshot
+    [Migration("20240913171025_Services")]
+    partial class Services
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,32 +110,6 @@ namespace DbConnection.Migrations
                     b.ToTable("Loggings");
                 });
 
-            modelBuilder.Entity("DbConnection.Entity.ReadNews", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("GameLink")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("NewsType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReadNews");
-                });
-
             modelBuilder.Entity("DbConnection.Entity.Services", b =>
                 {
                     b.Property<int>("Id")
@@ -141,12 +118,6 @@ namespace DbConnection.Migrations
 
                     b.Property<string>("ChannelId")
                         .HasColumnType("longtext");
-
-                    b.Property<int>("Intervall")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IntervallType")
-                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

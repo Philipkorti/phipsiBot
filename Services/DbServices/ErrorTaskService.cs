@@ -1,7 +1,6 @@
 ﻿using DbConnection.Context;
 using DbConnection.Entity;
 using Services.Data;
-using Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,8 @@ namespace Services.DbServices
     {
         public static void AddErrorTask(string title, string description, DateTime createdDate, string status, string username)
         {
+            User user = UserServices.GetUerByUsername(username);
+            int userid = user == null ? -1 : user.Id;
             using (var db = new BotContext())
             {
                 db.Add(new ErrorTask()
@@ -23,7 +24,7 @@ namespace Services.DbServices
                     Description = description,
                     CreatedDate = createdDate,
                     Status = status,
-                    UserId = UserServices.GetUerByUsername(username).Id,
+                    UserId = userid,
                 });
                 db.SaveChanges();
             }

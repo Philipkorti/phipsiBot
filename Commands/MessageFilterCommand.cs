@@ -5,7 +5,6 @@ using DSharpPlus.CommandsNext.Builders;
 using DSharpPlus.EventArgs;
 using Services.Data;
 using Services.DbServices;
-using Services.Enums;
 using Services.Services;
 using System;
 using System.Collections.Generic;

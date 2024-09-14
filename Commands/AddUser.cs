@@ -2,7 +2,6 @@
 using DSharpPlus.CommandsNext.Attributes;
 using Services.Data;
 using Services.DbServices;
-using Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

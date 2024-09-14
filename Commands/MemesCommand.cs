@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 using Services.Data;
-using Services.Enums;
+using Enums.Enums;
 
 namespace Commands
 {
