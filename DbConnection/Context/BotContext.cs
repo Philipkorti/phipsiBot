@@ -20,6 +20,7 @@ namespace DbConnection.Context
         public DbSet<KitchenGame> KitchenGames { get; set; }
         public DbSet<Logging> Loggings { get; set; }
         public DbSet<Services> Services { get; set; }
+        public DbSet<ReadNews> ReadNews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

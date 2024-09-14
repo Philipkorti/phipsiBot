@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace DbConnection.Entity
 {
-    public class Services
+    public class ReadNews
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string? Title { get; set; }
+        public int ServiceId { get; set; }
 
-        public ServiceStatus Status { get; set; }
+        public string? Name { get; set; }
 
-        public string? ChannelId { get; set; }
-        
-        public int Intervall { get; set; }
+        public string? GameLink { get; set; }
 
-        public IntervallType IntervallType { get; set; }
+        public NewsType NewsType { get; set; }
+
+        public DateTime LastUpdate { get; set; }
     }
 }

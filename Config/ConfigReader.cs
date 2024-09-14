@@ -13,6 +13,7 @@ namespace Config
         public string Pefix { get; set; }
         public string dbConnection { get; set; }
         public string SteamAPI { get; set; }
+        public string YouTubeAPI { get; set; }
 
         public async Task ReadConfig()
         {
@@ -25,6 +26,7 @@ namespace Config
                 this.Pefix = data.Prefix;
                 this.dbConnection = data.dbConnection;
                 this.SteamAPI = data.SteamAPI;
+                this.YouTubeAPI = data.YouTubeAPI;
             }
         }
     }

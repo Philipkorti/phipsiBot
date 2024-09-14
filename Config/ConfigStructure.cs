@@ -12,5 +12,6 @@ namespace Config
         public string Prefix { get; set; }
         public string dbConnection { get; set; }
         public string SteamAPI {  get; set; }
+        public string YouTubeAPI { get; set; }
     }
 }
