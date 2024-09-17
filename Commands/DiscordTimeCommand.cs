@@ -31,16 +31,21 @@ namespace Commands
                 {
                     logger.Info($"Der User {args.User.Username} ist dem Channel {args.After.Channel} beigetreten!");
                     TimeHelperService.SetJoinTime(args.User.Username);
+                    logger.Info($"Die JoinTime für {args.User.Username} wurde gesetzt!");
                 }
 
                 if (args.Before?.Channel != null && args.After?.Channel == null)
                 {
                     logger.Info($"Der User {args.User.Username} hat den Channel {args.Before.Channel} verlassen!");
                     DateTime dateTime = DateTime.Now;
+                    logger.Info($"Die JoinTime von {args.User.Username} wird abgerufen!");
                     DateTime joinTime = TimeHelperService.GetJoinTime(args.User.Username);
+                    logger.Info($"Die JoinTime von {args.User.Username} ist {joinTime}");
                     TimeSpan difference = dateTime - joinTime;
+                    logger.Info($"Die User Time wird um {difference.TotalSeconds} erhöht!");
                     UserServices.SetUserTime(args.User.Username, Convert.ToInt64(difference.TotalSeconds));
                     TimeHelperService.ClearJoinTime(args.User.Username);
+                    logger.Info($"Die JoinTime von {args.User.Username} wurde gelöscht!");
                 }
             }catch (Exception ex)
             {
@@ -65,6 +70,7 @@ namespace Commands
                     DateTime joinTime = TimeHelperService.GetJoinTime(name);
                     if (joinTime != null)
                     {
+                        logger.Info("Die JoinTime wird umgewandelt in Stunden und Minuten!");
                         TimeSpan difference = dateTime - joinTime;
                         UserServices.SetUserTime(name, Convert.ToInt64(difference.TotalSeconds));
                         TimeHelperService.ClearJoinTime(name);

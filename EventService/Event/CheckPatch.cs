@@ -42,11 +42,13 @@ namespace EventService.Events
                     {
                         case NewsType.Steam:
                             {
+                                logger.Info($"Steam Update wird gesucht für {read.Name} GameLink: {read.GameLink}");
                                 CheckSteam(read.GameLink,channel, read.Name);
                                 break;
                             }
                         case NewsType.YouTube:
                             {
+                                logger.Info($"YouTube Update wird gesucht für {read.Name} GameLink: {read.GameLink}");
                                 CheckYouTube(read.GameLink, channel,read.Name);
                                 break;
                             }
@@ -62,9 +64,9 @@ namespace EventService.Events
             }
            
         }
-
         private static async void CheckYouTube(string channelId, DiscordChannel channel, string name)
         {
+            Logger logger = LogManager.GetCurrentClassLogger();
             ConfigReader configReader = new ConfigReader();
             await configReader.ReadConfig();
             using (var httpClient = new HttpClient())
@@ -85,25 +87,36 @@ namespace EventService.Events
                     {
                         if (!string.IsNullOrEmpty(videoId))
                         {
+                            
                             ReadNewsService.SetGameNewsDateByName(dateTime, name);
                             var videoTitle = json["items"]?[0]?["snippet"]?["title"]?.ToString();
+                            logger.Info($"YouTube Update gefunden für {name} mit dem Title {videoId}");
                             var videoUrl = $"https://www.youtube.com/watch?v={videoId}";
 
                             // Poste das Video in einen bestimmten Discord-Channel // Ersetze CHANNEL_ID mit der Discord-Channel-ID
                             await channel.SendMessageAsync($"Neues YouTube-Video veröffentlicht: **{videoTitle}**\n{videoUrl}");
                         }
                     }
+                    else
+                    {
+                        logger.Info($"Kein YouTube Update gefunden für {name}");
+                    }
                 }
                 else
                 {
                     if (!string.IsNullOrEmpty(videoId))
                     {
+                        logger.Info($"YouTube Update gefunden für {name} mit dem Title {videoId}");
                         ReadNewsService.SetGameNewsDateByName(dateTime, name);
                         var videoTitle = json["items"]?[0]?["snippet"]?["title"]?.ToString();
                         var videoUrl = $"https://www.youtube.com/watch?v={videoId}";
 
                         // Poste das Video in einen bestimmten Discord-Channel // Ersetze CHANNEL_ID mit der Discord-Channel-ID
                         await channel.SendMessageAsync($"Neues YouTube-Video veröffentlicht: **{videoTitle}**\n{videoUrl}");
+                    }
+                    else
+                    {
+                        logger.Info($"Kein YouTube Update gefunden für {name}");
                     }
                 }
 
@@ -114,14 +127,20 @@ namespace EventService.Events
 
         private static void CheckSteam(string appid, DiscordChannel channel, string name)
         {
+            Logger logger = LogManager.GetCurrentClassLogger();
             string title = SteamAPIService.GetOverwatchNews(out IEnumerable<string> notes, appid, name);
             if(!string.IsNullOrEmpty(title))
             {
+                logger.Info($"Steam Update gefunden für {name} mit dem Title {title}");
                 channel.SendMessageAsync(title);
                 foreach (var item in notes)
                 {
                     channel.SendMessageAsync(item);
                 }
+            }
+            else
+            {
+                logger.Info($"Kein Steam Update gefunden für {name}!");
             }
         }
     }
