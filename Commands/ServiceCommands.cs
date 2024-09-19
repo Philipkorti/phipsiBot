@@ -16,6 +16,7 @@ using Services.Events;
 using EventService.Events;
 using System.Net.Http.Headers;
 using DbConnection.Entity;
+using Language;
 
 namespace Commands
 {
@@ -31,17 +32,18 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl Services benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(GetServices), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 List<DbConnection.Entity.Services> services = ServicesService.GetServices();
                 string msg;
                 foreach( DbConnection.Entity.Services service in services)
                 {
-                    msg = $"Service: {service.Title} Status: {service.Status} ChannelId: {service.ChannelId}";
+                    msg = botLocalization.GetLocalizedString("services", service.Title,service.Status,service.ChannelId);
                     logger.Info(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                 }
@@ -60,14 +62,16 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl SetChannelId benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(SetChannelId), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 ServicesService.SetChannelId(name,ctx.Channel.Id);
-                string msg = $"Die ChannelId von {name} wurde auf {ctx.Channel.Id} gesetzt!";
+                string msg;
+                msg = botLocalization.GetLocalizedString("setChannelId", name,ctx.Channel.Id);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -86,16 +90,17 @@ namespace Commands
             {
                 string msg;
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl start benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(StartService), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 DbConnection.Entity.Services services = ServicesService.GetServiceByName(name);
                 if(services == null)
-                {
-                    msg = $"Das Service mit dem Namen {name} gibt es nicht!";
+                { 
+                     msg = botLocalization.GetLocalizedString("serviceNotExists", name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
@@ -103,13 +108,13 @@ namespace Commands
 
                 if(services.Status == ServiceStatus.Online)
                 {
-                    msg = $"Das Service {name} ist schon gestartet!";
+                    msg = botLocalization.GetLocalizedString("serviceAlreadyOnline", name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
                 }
                 ServicesService.SetServiceStatusByName(name, ServiceStatus.Starting);
-                msg = $"Das Service {name} wird gestartet...";
+                msg = botLocalization.GetLocalizedString("starting", name);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
 
@@ -135,6 +140,7 @@ namespace Commands
                 }
                 timer.Add(name, new Timer(CheckPatch.CheckPatchNotes,state,0,Convert.ToInt32(Math.Round(timeSpan.TotalMilliseconds,0))));
                 msg = $"Das Service {services.Title} ist gestartet.";
+                msg = botLocalization.GetLocalizedString("online",services.Title);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -152,24 +158,25 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl create benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(CreateService), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 string msg;
                 DbConnection.Entity.Services services = ServicesService.GetServiceByName(name);
                 if (services != null)
                 {
-                    msg = $"Das Service mit dem Namen {name} gibt es schon!";
+                    msg = botLocalization.GetLocalizedString("serviceAlreadyExists",name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
                 }
                 IntervallType intervalType = (IntervallType)intervalTyp;
                 ServicesService.CreateServices(name, interval, intervalType);
-                msg = $"Das Service mit dem Namen {name} wurde erstellt! Interval {interval} IntervalType {intervalType.ToString()}";
+                msg = botLocalization.GetLocalizedString("serviceCreate", name,interval,intervalTyp.ToString());
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -186,17 +193,18 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl addgame benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(SetGameNews), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 DbConnection.Entity.Services services = ServicesService.GetServiceByName(serviceName);
                 string msg;
                 if(services == null)
                 {
-                    msg = $"Das Service mit dem Namen {serviceName} gibt es nicht!";
+                    msg = botLocalization.GetLocalizedString("serviceNotExists",serviceName);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
@@ -204,7 +212,7 @@ namespace Commands
                 NewsType news = new NewsType();
                 news = (NewsType)newsType;
                 ReadNewsService.AddGameNews(services.Id, gameInfo, news);
-                msg = $"Das spiel {gameInfo} wurde zu dem Service {serviceName} hinzugefügt!";
+                msg = botLocalization.GetLocalizedString("addGame", gameInfo, serviceName);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch (Exception ex)
@@ -221,16 +229,18 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl stop benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(StopService), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
 
                 timer.Remove(name);
                 ServicesService.SetServiceStatusByName(name, ServiceStatus.Offline);
-                string msg = $"Das Service {name} wurde gestoppt!";
+                string msg;
+                msg = botLocalization.GetLocalizedString("serviceStop",name);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -248,17 +258,18 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl removeService benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(StopService), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 DbConnection.Entity.Services services = ServicesService.GetServiceByName(name);
                 string msg;
                 if(services == null)
                 {
-                    msg = $"Das Service mit dem Namen {name} gibt es nicht!";
+                    msg = botLocalization.GetLocalizedString("serviceNotExists", name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
@@ -266,13 +277,13 @@ namespace Commands
 
                 if (services.Status == ServiceStatus.Online)
                 {
-                    msg = $"Das Service {name} ist gestartet sie müssen es vorher stoppen!";
+                    msg = botLocalization.GetLocalizedString("errorservicerunning", name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
                 }
                 ServicesService.RemoveService(name);
-                msg = $"Das Service {name} wurde gelöscht!";
+                msg = botLocalization.GetLocalizedString("deleteService", name);
                 logger.Info(name);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch(Exception ex)
@@ -289,23 +300,24 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl removeReadNews benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(RemoveReadNews), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 ReadNews readNews = ReadNewsService.GetGameNewsDateByName(name);
                 string msg;
                 if(readNews == null)
                 {
-                    msg = $"Das Service mit dem Namen {name} gibt es nicht!";
+                    msg = botLocalization.GetLocalizedString("serviceNotExists", name);
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
                 }
                 ReadNewsService.RemoveReadNews(name);
-                msg = $"Das ReadNews {name} wurde gelöscht!";
+                msg = botLocalization.GetLocalizedString("deleteGame", name);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -323,24 +335,26 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl readnews benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(GetAllReadNews), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 List<ReadNews> readNews = ReadNewsService.ReadNews();
                 string msg;
                 if(readNews == null)
                 {
-                    msg = "Es gibt keine ReadNews";
+                    msg = botLocalization.GetLocalizedString("errorviewReadNews");
                     logger.Warn(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                     return;
                 }
                 foreach(ReadNews read in readNews)
                 {
-                    await ctx.Channel.SendMessageAsync($"{read.Name}, Game Connection {read.GameLink}, Last Update: {read.LastUpdate}");
+                    msg = botLocalization.GetLocalizedString("viewReadNews",read.Name,read.GameLink,read.LastUpdate);
+                    await ctx.Channel.SendMessageAsync(msg);
                 }
             }
             catch (Exception ex)

@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Enums\Enums.csproj" />
     <ProjectReference Include="..\EventService\EventService.csproj" />
     <ProjectReference Include="..\Imbiss\Imbiss.csproj" />
+    <ProjectReference Include="..\Language\Language.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 

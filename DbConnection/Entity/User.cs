@@ -22,5 +22,7 @@ namespace DbConnection.Entity
         public Groups Groups {  get; set; }
 
         public Int64 TimeInSecond { get; set; }
+
+        public string? LanguageCode { get; set; }
     }
 }

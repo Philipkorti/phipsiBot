@@ -13,6 +13,7 @@ using Commands.Authorized;
 using Services.DbServices;
 using NLog;
 using Services.Data;
+using Language;
 
 namespace Commands
 {
@@ -27,10 +28,11 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl setGroup benutzt!");
+                BotLocalization botLocalization = new BotLocalization(ctx.User.Username);
                 if (!Authentication.IsUserAuthorized(this, nameof(SetGroup), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 Groups groups = Groups.User;
@@ -58,6 +60,7 @@ namespace Commands
                         }
                 }
                 string msg = $"Die Gruppe wurde von {username} wurde auf {groups.ToString()} gesetzt!";
+                msg = botLocalization.GetLocalizedString("SetGroup",username,groups.ToString());
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
                 UserServices.SetGroupByUsername(username, groups);

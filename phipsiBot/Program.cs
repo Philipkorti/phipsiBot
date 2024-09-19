@@ -80,6 +80,8 @@ public class Program
         logger.Info("Die LogCommand Klasse wurde registriert!");
         commands.RegisterCommands<ServiceCommands>();
         logger.Info("Die ServiceCommands Klasse wurde registriert!");
+        commands.RegisterCommands<LanguageCommand>();
+        logger.Info("Die LanguageCommand  Klasse wurde registriert!");
         logger.Info("Die Verbindung zu Discord wird aufgebaut!");
         await client.ConnectAsync();
         logger.Info("Der Discord Bot ist nun bereit!");

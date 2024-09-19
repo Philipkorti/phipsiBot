@@ -16,6 +16,9 @@ using Commands.Authorized;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using NLog;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Resources;
+using System.Reflection;
+using Language;
 
 namespace Commands
 {
@@ -27,6 +30,7 @@ namespace Commands
             Logger logger = LogManager.GetCurrentClassLogger();
             try
             {
+                
                 if (args.Before?.Channel == null && args.After?.Channel != null)
                 {
                     logger.Info($"Der User {args.User.Username} ist dem Channel {args.After.Channel} beigetreten!");
@@ -64,6 +68,7 @@ namespace Commands
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl time benutzt!");
                 string name = username == null ? ctx.User.Username : username;
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(name));
                 if (ctx.Member?.VoiceState?.Channel != null)
                 {
                     DateTime dateTime = DateTime.Now;
@@ -83,7 +88,7 @@ namespace Commands
                 long reminingSeconds = time % 3600;
                 long minutes = reminingSeconds / 60;
                 reminingSeconds = reminingSeconds % 60;
-                string msg = $"Die Discord Zeit von {name} beträgt {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden.";
+                string msg = botLocalization.GetLocalizedString("Time", name, hour, minutes, reminingSeconds);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -100,6 +105,7 @@ namespace Commands
         {
             try
             {
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl timetop benutzt!");
                 List<User> users = TimeHelperService.GetTopUsers();
 
@@ -109,7 +115,8 @@ namespace Commands
                     long reminingSeconds = users[i].TimeInSecond % 3600;
                     long minutes = reminingSeconds / 60;
                     reminingSeconds = reminingSeconds % 60;
-                    string msg = $"{i + 1}: {users[i].Username} mit {hour} Stunden und {minutes} Minuten und {reminingSeconds} Sekunden";
+                    string msg;
+                    msg = botLocalization.GetLocalizedString("TimeTop", i + 1, users[i].Username,hour,minutes,reminingSeconds);
                     logger.Info(msg);
                     await ctx.Channel.SendMessageAsync(msg);
                 }
@@ -128,15 +135,17 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl addTime benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(AddTime), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 long setSeconds = hour*3600 + minutes*60 + seconds;
                 UserServices.SetUserTime(username, setSeconds);
-                string msg = $"Es wurden an den Benutzer {username} {hour} Stunden {minutes} Minuten {seconds} Sekunden das entspricht {setSeconds} Sekunden hinzugefügt.";
+                string msg;
+                msg = botLocalization.GetLocalizedString("addTime", username, hour, minutes, seconds, setSeconds);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch(Exception ex)
@@ -153,6 +162,7 @@ namespace Commands
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl TimeInSecond benutzt!");
                 username = string.IsNullOrEmpty(username) ? ctx.User.Username : username;
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (ctx.Member?.VoiceState?.Channel != null)
                 {
                     DateTime dateTime = DateTime.Now;
@@ -168,7 +178,8 @@ namespace Commands
                 }
 
                 User user = UserServices.GetUerByUsername(username);
-                string msg = $"Die Discord Zeit von {username} beträgt {user.TimeInSecond} Sekunden.";
+                string msg;
+                msg = botLocalization.GetLocalizedString("TimeInSeconds", username, user.TimeInSecond);
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch(Exception ex)

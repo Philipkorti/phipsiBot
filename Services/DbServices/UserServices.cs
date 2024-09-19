@@ -75,5 +75,26 @@ namespace Services.DbServices
             }
             return user;
         }
+
+        public static string GetLanguageCodeByUsername(string username)
+        {
+            string languageCode = null;
+
+            using( var db = new BotContext())
+            {
+                languageCode = db.Users.SingleOrDefault(u => u.Username == username).LanguageCode;
+            }
+
+            return languageCode;
+        }
+
+        public static void SetLanguageCodeByUsername(string username, string languageCode)
+        {
+            using(var db = new BotContext())
+            {
+                db.Users.SingleOrDefault(u=>u.Username == username).LanguageCode = languageCode;
+                db.SaveChanges();
+            }
+        }
     }
 }
