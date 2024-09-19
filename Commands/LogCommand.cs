@@ -13,6 +13,7 @@ using DbConnection.Entity;
 using Services.DbServices;
 using DSharpPlus.Entities;
 using Services.Data;
+using Language;
 
 namespace Commands
 {
@@ -26,10 +27,11 @@ namespace Commands
         {
             try
             {
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authentication.IsUserAuthorized(this, nameof(GetLog), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Befehl nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
 

@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="addFilter" xml:space="preserve">
+    <value>The list of filter words has been extended by the following: {0}</value>
+  </data>
+  <data name="addgame" xml:space="preserve">
+    <value>The game {0} has been added to the service {1}!</value>
+  </data>
+  <data name="addTime" xml:space="preserve">
+    <value>The user {0} has been given {1} hours {2} minutes {3} seconds, which equals {4} seconds.</value>
+  </data>
+  <data name="AddUser" xml:space="preserve">
+    <value>The user {0} has been created in the database!</value>
+  </data>
+  <data name="CommandAddFilter" xml:space="preserve">
+    <value>Adds words to the filter list. Multiple words can be provided, separated by ','</value>
+  </data>
+  <data name="commandAddGame" xml:space="preserve">
+    <value>Creates a connection to the data to be searched. GameConnection is an id, news type is 0 for Steam and 1 for YouTube.</value>
+  </data>
+  <data name="commandCreate" xml:space="preserve">
+    <value>Creates a service. Interval is the time after which it should repeat. IntervalType is the unit of the interval: 0 for seconds, 1 for minutes, and 2 for hours.</value>
+  </data>
+  <data name="commandcreateFilter" xml:space="preserve">
+    <value>Creates a new filter list. Multiple filter words can be added, separated by ','</value>
+  </data>
+  <data name="commandKitchenHelp" xml:space="preserve">
+    <value>Returns help for kitchenGame.</value>
+  </data>
+  <data name="commandMeme" xml:space="preserve">
+    <value>Returns a random meme.</value>
+  </data>
+  <data name="commandOverwatchNews" xml:space="preserve">
+    <value>Returns the latest Overwatch news.</value>
+  </data>
+  <data name="commandReadNews" xml:space="preserve">
+    <value>Returns all news to be displayed.</value>
+  </data>
+  <data name="commandRemoveReadNews" xml:space="preserve">
+    <value>Removes the connection to the game data.</value>
+  </data>
+  <data name="commandRemoveService" xml:space="preserve">
+    <value>Deletes the service!</value>
+  </data>
+  <data name="commandServices" xml:space="preserve">
+    <value>Returns all services.</value>
+  </data>
+  <data name="commandSetChannelId" xml:space="preserve">
+    <value>Sets the ChannelId for the service.</value>
+  </data>
+  <data name="commandSetGroup" xml:space="preserve">
+    <value>Sets the group for a player. The available groups are: User, Manager, Admin.</value>
+  </data>
+  <data name="commandSetLanguage" xml:space="preserve">
+    <value>Sets the bot's language for the user! German: de English: en</value>
+  </data>
+  <data name="commandStart" xml:space="preserve">
+    <value>Starts the service!</value>
+  </data>
+  <data name="commandStop" xml:space="preserve">
+    <value>Stops the service!</value>
+  </data>
+  <data name="commandTime" xml:space="preserve">
+    <value>Returns the current Discord time.</value>
+  </data>
+  <data name="commandTimeTop" xml:space="preserve">
+    <value>Shows the top 5 players with the most time.</value>
+  </data>
+  <data name="commandTimeUser" xml:space="preserve">
+    <value>Returns the time for a specific user!</value>
+  </data>
+  <data name="commandViewFilter" xml:space="preserve">
+    <value>Shows the current filter list.</value>
+  </data>
+  <data name="deleteGame" xml:space="preserve">
+    <value>The ReadNews {0} has been deleted!</value>
+  </data>
+  <data name="deleteService" xml:space="preserve">
+    <value>The service {0} has been deleted!</value>
+  </data>
+  <data name="editLanguage" xml:space="preserve">
+    <value>The language has been set to {0}!</value>
+  </data>
+  <data name="errorCommand" xml:space="preserve">
+    <value>You are not authorized to execute this command!</value>
+  </data>
+  <data name="errorservicerunning" xml:space="preserve">
+    <value>The service {0} is running. You need to stop it first!</value>
+  </data>
+  <data name="errorservicestart" xml:space="preserve">
+    <value>The service with the name {name} does not exist!</value>
+  </data>
+  <data name="errorviewReadNews" xml:space="preserve">
+    <value>There are no ReadNews!</value>
+  </data>
+  <data name="online" xml:space="preserve">
+    <value>The service {0} has started.</value>
+  </data>
+  <data name="serviceAlreadyExists" xml:space="preserve">
+    <value>The service with the name {0} already exists!</value>
+  </data>
+  <data name="serviceAlreadyOnline" xml:space="preserve">
+    <value>The service {0} is already running!</value>
+  </data>
+  <data name="serviceCreate" xml:space="preserve">
+    <value>The service with the name {0} has been created! Interval {1}, IntervalType {2}</value>
+  </data>
+  <data name="serviceNotExists" xml:space="preserve">
+    <value>The service with the name {0} does not exist!</value>
+  </data>
+  <data name="services" xml:space="preserve">
+    <value>Service: {0} Status: {1} ChannelId: {2}</value>
+  </data>
+  <data name="serviceStop" xml:space="preserve">
+    <value>The service {0} has been stopped!</value>
+  </data>
+  <data name="setChannelId" xml:space="preserve">
+    <value>The ChannelId for {0} has been set to {1}!</value>
+  </data>
+  <data name="SetGroup" xml:space="preserve">
+    <value>The group for {username} has been set to {groups.ToString()}!</value>
+  </data>
+  <data name="starting" xml:space="preserve">
+    <value>The service {0} is starting...</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>The Discord time for {0} is {1} hours and {2} minutes and {3} seconds.</value>
+  </data>
+  <data name="TimeInSeconds" xml:space="preserve">
+    <value>The Discord time for {0} is {1} seconds.</value>
+  </data>
+  <data name="TimeTop" xml:space="preserve">
+    <value>{0}: {1} with {2} hours and {3} minutes and {4} seconds</value>
+  </data>
+  <data name="viewFilter" xml:space="preserve">
+    <value>Current filter list: {0}</value>
+  </data>
+  <data name="viewReadNews" xml:space="preserve">
+    <value>{0}, Game Connection {1}, Last Update: {2}</value>
+  </data>
+</root>

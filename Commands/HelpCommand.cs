@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Config;
 using NLog;
+using Language;
 
 namespace Commands
 {
@@ -25,6 +26,7 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl help benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 var readconfig = new ConfigReader();
                 await readconfig.ReadConfig();
                 string prefix = readconfig.Pefix;
@@ -34,31 +36,32 @@ namespace Commands
                 builder.Title = "Hilfe";
                 if (groups <= Groups.User)
                 {
-                    builder.AddField($"{prefix}time", "Gibt die aktuelle Discord Zeit wieder.");
-                    builder.AddField($"{prefix}time Username", "Gibt die Zeit von einem Bestimmten Benutzer wieder!");
-                    builder.AddField($"{prefix}timetop", "Gibt die 5 Spieler an mit der meisten Zeit.");
-                    builder.AddField($"{prefix}meme", "Gibt ein zufälliges Meme wieder.");
-                    builder.AddField($"{prefix}kitchenHelp", "Gibt die Hilfe zurück für kitchenGame.");
-                    builder.AddField($"{prefix}OverwatchNews", "Gibt die Aktuellen Neuigkeiten von Overwatch zurück.");
+                    builder.AddField($"{prefix}time", botLocalization.GetLocalizedString("commandTime"));
+                    builder.AddField($"{prefix}time Username", botLocalization.GetLocalizedString("commandTimeUser"));
+                    builder.AddField($"{prefix}timetop", botLocalization.GetLocalizedString("commandTimeTop"));
+                    builder.AddField($"{prefix}meme", botLocalization.GetLocalizedString("commandMeme"));
+                    builder.AddField($"{prefix}kitchenHelp", botLocalization.GetLocalizedString("commandKitchenHelp"));
+                    builder.AddField($"{prefix}OverwatchNews", botLocalization.GetLocalizedString("commandOverwatchNews"));
+                    builder.AddField($"{prefix}setlanguage", botLocalization.GetLocalizedString("commandSetLanguage"));
 
                     if (groups <= Groups.Manager)
                     {
-                        builder.AddField($"{prefix}createFilter title filterWörter", "Erstellt eine neue Filterliste. Es können mehrere filter Wörter hinzugefügt werden mit dem Trennzeichen ','.");
-                        builder.AddField($"{prefix}addFilter filterWörter", "fügt zu der Filterliste Wörter hinzu. Es können mehrere Wörter angegeben werden mit dem Trennzeichen ','.");
-                        builder.AddField($"{prefix}viewFilter", "Zeigt die Aktuelle Filterliste an.");
-                        builder.AddField($"{prefix}services", "Gibt Alle Services zurück.");
-                        builder.AddField($"{prefix}readnews", "Gibt alle Neuigkeiten Zurück die ausgegeben werden.");
-                        builder.AddField($"{prefix}setchannelId serviceName", "Setzt bei dem Service die ChannelId.");
-                        builder.AddField($"{prefix}addgame serviceName gameVerbindung newsType", "Erstellt eine Verbindung zu den Daten die durchsucht werden. GameVerbindung ist eine id, news Type ist 0 für Steam und 1 für YouTube.");
-                        builder.AddField($"{prefix}removeReadNews readNewsName", "Entfernt wieder die Verbindung zu den Daten vom Spiel.");
+                        builder.AddField($"{prefix}createFilter title filterWörter", botLocalization.GetLocalizedString("commandcreateFilter"));
+                        builder.AddField($"{prefix}addFilter filterWörter", botLocalization.GetLocalizedString("CommandAddFilter"));
+                        builder.AddField($"{prefix}viewFilter", botLocalization.GetLocalizedString("commandViewFilter"));
+                        builder.AddField($"{prefix}services", botLocalization.GetLocalizedString("commandServices"));
+                        builder.AddField($"{prefix}readnews", botLocalization.GetLocalizedString("commandReadNews"));
+                        builder.AddField($"{prefix}setchannelId serviceName", botLocalization.GetLocalizedString("commandSetChannelId"));
+                        builder.AddField($"{prefix}addgame serviceName gameVerbindung newsType", botLocalization.GetLocalizedString("commandAddGame"));
+                        builder.AddField($"{prefix}removeReadNews readNewsName", botLocalization.GetLocalizedString("commandRemoveReadNews"));
 
                         if (groups <= Groups.Admin)
                         {
-                            builder.AddField($"{prefix}setGroup Username Group", "Setzt die Gruppe von einem Spieler. Die Folgende Gruppen gibt es: User, Manager, Admin.");
-                            builder.AddField($"{prefix}create interval intervalTyp", "Erstellt ein Service. Interval ist die Zeit nach wie viel er es Wiederholen soll. IntervalType is welche Einheit der Intervall hat 0 für Sekunde 1 für Minute und 2 für Stunden.");
-                            builder.AddField($"{prefix}start serviceName", "Startet das Service!");
-                            builder.AddField($"{prefix}stop serviceName", "Stopped das Service!");
-                            builder.AddField($"{prefix}removeService serviceName", "Löscht das Service!");
+                            builder.AddField($"{prefix}setGroup Username Group", botLocalization.GetLocalizedString("commandSetGroup"));
+                            builder.AddField($"{prefix}create interval intervalTyp", botLocalization.GetLocalizedString("commandCreate"));
+                            builder.AddField($"{prefix}start serviceName", botLocalization.GetLocalizedString("commandStart"));
+                            builder.AddField($"{prefix}stop serviceName", botLocalization.GetLocalizedString("commandStop"));
+                            builder.AddField($"{prefix}removeService serviceName", botLocalization.GetLocalizedString("commandRemoveService"));
                         }
                     }
                 }

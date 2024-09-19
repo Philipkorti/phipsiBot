@@ -16,6 +16,7 @@ using DbConnection.Entity;
 using MySqlX.XDevAPI.Common;
 using NLog;
 using Microsoft.Extensions.Logging;
+using Language;
 
 namespace Commands
 {
@@ -55,10 +56,11 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl addFilter benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authorized.Authentication.IsUserAuthorized(this,nameof(SetAddFilter),ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
 
@@ -77,7 +79,8 @@ namespace Commands
                     MessageFilterService.AddWords(filterWord);
                     addedwords.Add(filterWord);
                 }
-                string msg = $"Die Liste von den Filter Wörter wurde um folgende erweitert: {string.Join(',', addedwords)}";
+                string msg;
+                msg = botLocalization.GetLocalizedString("addFilter", string.Join(',', addedwords));
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }
@@ -95,14 +98,16 @@ namespace Commands
             try
             {
                 logger.Info($"Der User {ctx.User.Username} hat den Befehl viewFilter benutzt!");
+                BotLocalization botLocalization = new BotLocalization(UserServices.GetLanguageCodeByUsername(ctx.User.Username));
                 if (!Authorized.Authentication.IsUserAuthorized(this,nameof(ViewFilter), ctx.User.Username))
                 {
                     logger.Warn($"Der User {ctx.User.Username} hat einen Befehl benutzt wo für er nicht berechtigt ist!");
-                    await ctx.Channel.SendMessageAsync("Sie dürfen diesen Command nicht ausführen!");
+                    await ctx.Channel.SendMessageAsync(botLocalization.GetLocalizedString("errorCommand"));
                     return;
                 }
                 List<FilterWords> words = MessageFilterService.GetWordsList();
-                string msg = $"Aktuelle Filter Liste: {string.Join(',', words)}";
+                string msg;
+                msg = botLocalization.GetLocalizedString("viewFilter", string.Join(",", words));
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch (Exception ex)
