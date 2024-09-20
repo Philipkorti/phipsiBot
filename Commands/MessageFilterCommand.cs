@@ -107,7 +107,7 @@ namespace Commands
                 }
                 List<FilterWords> words = MessageFilterService.GetWordsList();
                 string msg;
-                msg = botLocalization.GetLocalizedString("viewFilter", string.Join(",", words));
+                msg = botLocalization.GetLocalizedString("viewFilter", string.Join(",", words.Select(w => w.Words)));
                 logger.Info(msg);
                 await ctx.Channel.SendMessageAsync(msg);
             }catch (Exception ex)
